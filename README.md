@@ -1,4 +1,4 @@
-# FASTFarm2MATLABSimulink
+# FASTFarm and MATLAB/Simulink interface
 
 Run 'RunTest_MATLAB.bat' or 'RunTest_Simulink.bat' in order to run a test with the interface. A turbine-level and farm-level controller can be constructed in the files 'SC_MATLAB' or 'SC_Simulink' in the 'SC_MPIServer' folder. 
 
