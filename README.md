@@ -7,7 +7,7 @@ The following programs need to be installed in order to run the FAST.Farm and MA
     - Add MinGW-w64 package for running and compiling MEX functions 
 - Anaconda or Miniconda (contains libraries thar are needed for running FAST.Farm)
 
-- Microsof Visual Studio could be downloaded for writing Fortran DLLs for FAST.Farm (not needed for this interface)
+- [Optional] Microsof Visual Studio could be downloaded for writing Fortran DLLs for FAST.Farm (not needed for this interface)
 
 Add the following libraries to your path (mkl libraries can be added by downloading Miniconda, the others should be in the MinGW folder). These libraries are needed for running FAST.Farm (OpenFAST works without those). Some libraries have '.1' at the end, if so, change the name of those libraries. 
 - libifportMD.dll
@@ -26,4 +26,4 @@ C:\OpenFAST\reg_tests\r-test\glue-codes\openfast\5MW_OC4Semi_Linear> C:\OpenFAST
 
 Once FAST.Farm works, run 'RunTest_MATLAB.bat' or 'RunTest_Simulink.bat' in order to run a test with the interface. A turbine-level and farm-level controller can be constructed in the files 'SC_MATLAB' or 'SC_Simulink' in the 'SC_MPIServer' folder. MATLAB needs some time to start the simulation, two screens appear once 'RunTest' is executed. Wait for the message 'ready to connect' before clicking continue (this could last 1 minute at most). Once ready, the FAST.Farm simulation starts and connects to MATLAB. A powershell screen should appear showing the progress of the simulation. 
 
-The 'Test3turbines' folder contains the FAST.Farm input file (.fstf file) and the OpenFAST input files (.fst file and servodyn, elastodyn etc). This files can be modified accordingly. 
+The 'Test3turbines' folder contains the FAST.Farm input file (.fstf file) and the OpenFAST input files (.fst file and servodyn, elastodyn etc). These files can be modified accordingly. 
