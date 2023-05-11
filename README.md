@@ -4,7 +4,7 @@ This project aims at coupling NREL's FAST.Farm with The Mathworks' MATLAB/Simuli
 
 # Installation
 
-The following programs need to be installed in order to run the FAST.Farm and MATLAB/Simulink interface: 
+The following needs to be installed in order to run the FAST.Farm and MATLAB/Simulink interface: 
 - Microsoft MPI (Message passing interface for connecting FAST.Farm to MATLAB)
 - MATLAB and Simulink 
 - Python distribution (contains libraries thar are needed for running FAST.Farm)
