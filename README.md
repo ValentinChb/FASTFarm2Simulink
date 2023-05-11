@@ -11,6 +11,8 @@ The following needs to be installed in order to run the FAST.Farm and MATLAB/Sim
 - MATLAB and Simulink 
 - Python distribution (provides dependencies for FAST.Farm)
 
+Binaries for FAST.Farm, the wind turbine controller and libraries for the MPI bridge are provided.
+
 See the OpenFAST documentation for more information about the input files of FAST.Farm and OpenFAST. Be sure that OpenFAST and FAST.Farm work. The 'r-test' folder form the OpenFAST GitHub (https://github.com/OpenFAST) contains simulation tests, try to run 1 or 2 of these tests.  
 The OpenFAST GitHub also contains a 'MATLAB_Toolbox', this toolbox contains functions that can be run in MATLAB in order to visualize the generated simulation results. 
 
