@@ -32,7 +32,7 @@ The 'Test3turbines' folder contains the FAST.Farm input file (.fstf file) and th
 
 # Recompiling/Updating
 
-The MPI-based co-simulation interface consists of a client dll on the OpenFAST side and a server dll and mex file on the Matlab side. This project uses MinGW64 with gcc/gfortran to build these files.
+The MPI-based co-simulation interface consists of a client dll on the OpenFAST side and a server dll and mex files on the Matlab side. This project uses MinGW64 with gcc/gfortran to build these files.
 - The client dll is used in lieu of the turbine controller dll in ServoDyn. See https://github.com/ValentinChb/SC_MPIClient for compiling instructions and linking to popular wind turbine controllers (DTUWEC and ROSCO).
 - The server dll SC_MPIServerSubs.dll may be compiled using SC_MPIServer/Build_SC_MPIServer_DLL.bat from the source code SC_MPIServer/SC_MPIServer.f90.
 - Mex files may be recompiled from source files in SC_MPIServer/Mex Function C++ Code.  see https://se.mathworks.com/help/matlab/cpp-mex-file-applications.html for support.
