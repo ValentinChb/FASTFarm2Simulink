@@ -2,7 +2,7 @@
 
 This project aims at coupling NREL's FAST.Farm with The Mathworks' MATLAB/Simulink for wind turbine and farm control purposes, via MPI-based co-simulation on Windows 64-bit machines. 
 
-The orginal MPI Client/Server interface with FAST.Farm has been developed at SINTEF; this project is an extension to MATLAB/Simulink developed by Coen-Jan Smits during its master thesis at TU Delft.
+The orginal MPI Client/Server interface with FAST.Farm has been developed at SINTEF; this project is an extension to MATLAB/Simulink developed by Coen-Jan Smits during his master thesis at TU Delft.
 
 # Installation
 
