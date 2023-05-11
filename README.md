@@ -12,7 +12,7 @@ The following needs to be installed in order to run the FAST.Farm and MATLAB/Sim
 See the OpenFAST documentation for more information about the input files of FAST.Farm and OpenFAST. Be sure that OpenFAST and FAST.Farm work. The 'r-test' folder form the OpenFAST GitHub (https://github.com/OpenFAST) contains simulation tests, try to run 1 or 2 of these tests.  
 The OpenFAST GitHub also contains a 'MATLAB_Toolbox', this toolbox contains functions that can be run in MATLAB in order to visualize the generated simulation results. 
 
-Add the following libraries to your path (they should be found in the Python distribution's bin folder). These libraries are needed for running FAST.Farm (OpenFAST works without those). If a library has a sligthly different name (e.g. '.1' at the end), create a copy and rename. 
+It may be necessary to add the following libraries to your path (they should be found in the Python distribution's bin folder). These libraries are needed for running FAST.Farm (OpenFAST works without those). If a library has a sligthly different name (e.g. '.1' at the end), create a copy and rename. 
 - libifportMD.dll
 - libifcoremd.dll
 - libiomp5md.dll
