@@ -1,3 +1,5 @@
+:: Written by Valentin Chabaud on 12-05-2022 (GPL 3.0 licence)
+
 :: Adapted from https://abhilashreddy.com/writing/3/mpi_instructions.html
 :: TODO: Install MPI and MPI SDK, run "set MSMPI" to check install and see the relevant directories %MSMPI_LIB64% and %MSMPI_INC% that should be added to PATH 
 copy "%MSMPI_LIB64%\msmpi.lib" %~dp0
