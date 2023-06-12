@@ -1,3 +1,5 @@
+:: Written by Coen-Jan Smits on 12-05-2023 (GPL 3.0 licence)
+
 :: Example connecting plant/custom controller in MATLAB with FAST.farm via Fortran-based MPI wrapper dll
 :: Run with administrator rights
 
