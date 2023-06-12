@@ -1,3 +1,5 @@
+:: Written by Valentin Chabaud on 12-05-2022 (GPL 3.0 licence)
+
 @echo off
 set "DependencyDIR=..\MPI_libs"
 gfortran -c -fdefault-real-8 -ffree-line-length-0 %~dp0\MPIServerSubs.f90 -I%DependencyDIR%
