@@ -1,3 +1,5 @@
+! Written by Valentin Chabaud on 12-05-2022 (GPL 3.0 licence)
+
 module MPIServerSubs
     use mpi
     use, intrinsic  :: ISO_C_Binding
