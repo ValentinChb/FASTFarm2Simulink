@@ -1,3 +1,5 @@
+:: Written by Coen-Jan Smits on 12-05-2023 (GPL 3.0 licence)
+
 :: Example connecting plant/custom controller in Simulink with FAST.farm via Fortran-based MPI wrapper dll
 :: Run with administrator rights
 
@@ -26,7 +28,7 @@ cd %~dp0Test3turbines
 start /min powershell -NoExit "..\FAST.Farm_x64_OMP.exe FAST.Farm_N3.fstf | tee %~dp0FASTfarm_stdout.txt"
 
 ::For connection OpenFAST directly to MATLAB: Make sure that SCClient_64.dll.dll is used in ServoDyn input file. 
-::For connection OpenFAST to MATLAB, with DTUWEC as turbine controller: Make sure that DTUWEC_for_OpenFAST_64.dll.dll is used in ServoDyn input file. 
+::For connection OpenFAST to MATLAB, with DTUWEC as turbine controller: Make sure that SCClient_DTUWEC_64.dll.dll is used in ServoDyn input file. 
 ::Not using the MPI interface: Make sure that UseSC is set to 0 in SC_input.dat.
 
 ::REM cd %~dp0Test3turbines_DTUWEC\OpenFAST\T1
