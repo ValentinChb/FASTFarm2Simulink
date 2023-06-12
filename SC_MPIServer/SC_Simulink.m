@@ -1,3 +1,5 @@
+% Written by Coen-Jan Smits on 12-05-2023 (GPL 3.0 licence)
+
 %% SC_MPIServer matlab file
 
 function SC_Simulink(instance) %same name as file
