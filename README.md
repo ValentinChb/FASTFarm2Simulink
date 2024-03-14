@@ -27,7 +27,12 @@ It may be necessary to add the following libraries to your path (they should be 
 
 # Use
 
-A turbine-level and farm-level controller can be constructed in the files 'SC_MATLAB.m' or 'SC_Simulink.m' in the 'SC_MPIServer' folder. NOTE: This repository only provides a skeletton of controller. Running it as is without linking to DTUWEC or ROSCO (see below) will lead to unstable behaviour, unless the effect of controls has been switched off in ElastoDyn through the generator DOF (i.e. using fixed rotor speed).
+Matlab/Simulink acts as an MPI server communicating with MPI client dlls for each turbine, used in lieu of the turbine controller dll in ServoDyn. Information about the client may be found in https://github.com/ValentinChb/SC_MPIClient. This repository provides three versions of client dlls in the OpenFAST/T\<Turbine Number\>/ControlData folder:
+- SCClient_64.dll: Uses MPI communication to connect to the turbine-level and farm-level controllers implemented on the server side (i.e. all control commands come from the server)
+- SCClient_DTUWEC_64.dll: Uses the DTUWEC controller for turbine-level control. Uses MPI communication to connect to farm-level controller on the server side, and optionally to override turbine-level controls. A similar link may be made to ROSCO. 
+- SCClient_Standalone_64.dll: Does not use MPI communication, for debug only. Standalone versions may also be linked to DTUWEC or ROSCO for debug, which should be identical to using the DTUWEC or ROSCO dll directly.
+
+Skelettons of turbine-level and farm-level controllers are provided in the files 'SC_MATLAB.m' or 'SC_Simulink.m' in the 'SC_MPIServer' folder. NOTE: This repository only provides a skeletton of controller. Using SCClient_64.dll as is without linking to DTUWEC or ROSCO will lead to unstable behaviour, unless the effect of controls has been switched off in ElastoDyn through the generator DOF (i.e. using fixed rotor speed).
 
 Running a simulation: 
 - In the command prompt, navigate to the folder containing the test file, Call the OpenFAST.exe file (or FAST.Farm.exe file) and then call the file you want to run, example: 
@@ -44,7 +49,7 @@ Information about the MPI connection may be found in stdout_MPIServerSubs.txt fo
 # Recompiling/Updating
 
 The MPI-based co-simulation interface consists of a client dll on the OpenFAST side and a server dll and mex files on the Matlab side. This project uses MinGW64 with gcc/gfortran to build these files.
-- The client dll is used in lieu of the turbine controller dll in ServoDyn. See https://github.com/ValentinChb/SC_MPIClient for compiling instructions and linking to popular wind turbine controllers (DTUWEC and ROSCO).
+- See https://github.com/ValentinChb/SC_MPIClient for compiling instructions and linking to popular wind turbine controllers (DTUWEC and ROSCO).
 - The server dll SC_MPIServerSubs.dll may be compiled using SC_MPIServer/Build_SC_MPIServer_DLL.bat from the source file SC_MPIServer/SC_MPIServer.f90.
 - Mex files may be recompiled from source files in SC_MPIServer/Mex Function C++ Code.  see https://se.mathworks.com/help/matlab/cpp-mex-file-applications.html for support.
 - OpenFAST/FAST.Farm binaries and source code (for custom builds using intel fortran compiler) can be downloaded online  (see https://openfast.readthedocs.io/en/dev/source/install/index.html).
