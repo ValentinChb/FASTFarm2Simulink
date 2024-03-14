@@ -44,6 +44,8 @@ The 'Test3turbines' folder contains the FAST.Farm input file (.fstf file) and th
 
 # Debugging
 
+FAST.Farm and linking to DTUWEC or ROSCO may be checked separately by using Standalone versions of the client dll.
+
 Information about the MPI connection may be found in stdout_MPIServerSubs.txt for the server (Matlab) side in the Matlab folder, and in stdout_SCClientSubs.txt for the client (Wind turbine controller dlls) side in the OpenFAST/T\<Turbine Number\>/ControlData folder. Compare with the files provided in this repository to identify where the communcation fails/halts. When the communication is deemed robust, outputting these files may be deactivated to save computational time. This is done by switching the verbose flag to false in source code and recompiling (see below).
 
 # Recompiling/Updating
