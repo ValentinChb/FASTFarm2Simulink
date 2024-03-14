@@ -48,6 +48,8 @@ FAST.Farm and linking to DTUWEC or ROSCO may be checked separately by using Stan
 
 Information about the MPI connection may be found in stdout_MPIServerSubs.txt for the server (Matlab) side in the Matlab folder, and in stdout_SCClientSubs.txt for the client (Wind turbine controller dlls) side in the OpenFAST/T\<Turbine Number\>/ControlData folder. Compare with the files provided in this repository to identify where the communcation fails/halts. When the communication is deemed robust, outputting these files may be deactivated to save computational time. This is done by switching the verbose flag to false in source code and recompiling (see below).
 
+This is not an official NREL product and thorough testing has not bee conducted. It is expected that users have some knowledge about coding and willingness to look into the various source codes and be able to recompile to find solutions themselves.
+
 # Recompiling/Updating
 
 The MPI-based co-simulation interface consists of a client dll on the OpenFAST side and a server dll and mex files on the Matlab side. This project uses MinGW64 with gcc/gfortran to build these files.
