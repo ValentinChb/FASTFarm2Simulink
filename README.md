@@ -59,6 +59,8 @@ The MPI-based co-simulation interface consists of a client dll on the OpenFAST s
 - OpenFAST/FAST.Farm binaries and source code (for custom builds using intel fortran compiler) can be downloaded online  (see https://openfast.readthedocs.io/en/dev/source/install/index.html).
 - MPI libraries may be recompiled following instructions in https://github.com/ValentinChb/SC_MPIClient
 
+# Citing
 
+When using this work, credit may be given to this repository and the associated publication https://iopscience.iop.org/article/10.1088/1742-6596/2626/1/012069
 
 
