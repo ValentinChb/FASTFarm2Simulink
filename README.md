@@ -27,12 +27,19 @@ It may be necessary to add the following libraries to your path (they should be 
 
 # Use
 
-Running a simulation: In the command prompt, navigate to the folder containing the test file, Call the OpenFAST.exe file (or FAST.Farm.exe file) and then call the file you want to run, example: 
-C:\OpenFAST\reg_tests\r-test\glue-codes\openfast\5MW_OC4Semi_Linear> C:\OpenFAST\executables\openfast_x64.exe 5MW_OC4Semi_Linear.fst
+A turbine-level and farm-level controller can be constructed in the files 'SC_MATLAB.m' or 'SC_Simulink.m' in the 'SC_MPIServer' folder. NOTE: This repository only provides a skeletton of controller. Running it as is without linking to DTUWEC or ROSCO (see below) will lead to unstable behaviour, unless the effect of controls has been switched off in ElastoDyn through the generator DOF (i.e. using fixed rotor speed).
 
-Once FAST.Farm is running, run 'RunTest_MATLAB.bat' or 'RunTest_Simulink.bat' in order to run a test with the interface. A turbine-level and farm-level controller can be constructed in the files 'SC_MATLAB.m' or 'SC_Simulink.m' in the 'SC_MPIServer' folder. MATLAB needs some time to start the simulation, two screens appear once 'RunTest' is executed. Wait for the message 'ready to connect' before clicking continue (this could last 1 minute at most). Once ready, the FAST.Farm simulation starts and connects to MATLAB. A powershell screen should appear showing the progress of the simulation. 
+Running a simulation: 
+- In the command prompt, navigate to the folder containing the test file, Call the OpenFAST.exe file (or FAST.Farm.exe file) and then call the file you want to run, example: 
+C:\OpenFAST\reg_tests\r-test\glue-codes\openfast\5MW_OC4Semi_Linear> C:\OpenFAST\executables\openfast_x64.exe 5MW_OC4Semi_Linear.fst
+- Once FAST.Farm is running, run 'RunTest_MATLAB.bat' or 'RunTest_Simulink.bat' in order to run a test with the interface.  MATLAB needs some time to start the simulation, two screens appear once 'RunTest' is executed. Wait for the message 'ready to connect' before clicking continue (this could last 1 minute at most).
+- Once ready, the FAST.Farm simulation starts and connects to MATLAB. A powershell screen should appear showing the progress of the simulation. 
 
 The 'Test3turbines' folder contains the FAST.Farm input file (.fstf file) and the OpenFAST input files (.fst file and servodyn, elastodyn etc). These files can be modified accordingly, but the path tree architecture must be kept. 
+
+# Debugging
+
+Information about the MPI connection may be found in stdout_MPIServerSubs.txt for the server (Matlab) side in the Matlab folder, and in stdout_SCClientSubs.txt for the client (Wind turbine controller dlls) side in the OpenFAST/T\<Turbine Number\>/ControlData folder. Compare with the files provided in this repository to identify where the communcation fails/halts. When the communication is deemed robust, outputting these files may be deactivated to save computational time. This is done by switching the verbose flag to false in source code and recompiling (see below).
 
 # Recompiling/Updating
 
