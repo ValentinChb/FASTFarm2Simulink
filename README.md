@@ -61,6 +61,6 @@ The MPI-based co-simulation interface consists of a client dll on the OpenFAST s
 
 # Citing
 
-When using this work, credit may be given to this repository and the associated publication https://iopscience.iop.org/article/10.1088/1742-6596/2626/1/012069
+When using this work, credit may be given to the associated publication https://iopscience.iop.org/article/10.1088/1742-6596/2626/1/012069 (itself citing this repository)
 
 
