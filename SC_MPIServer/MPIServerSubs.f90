@@ -67,7 +67,16 @@ module MPIServerSubs
         if(verbose) write(output_unit_eff,*) 'Server init (dll): started, filename=', C_filename(1:C_filename_len-1), ", length=", C_filename_len
         if(textout) call flush(output_unit_eff)
         call MPI_INIT( ierror) ! Init mpi protocol
+        call MPI_COMM_SET_ERRHANDLER(MPI_COMM_WORLD,MPI_ERRORS_RETURN,ierror)
+        if(ierror/=0) then
+            write(output_unit_eff,*) 'Server init (dll): MPI error setting error handler for global comm, code=',ierror
+            goto 10
+        endif
         call MPI_OPEN_PORT( MPI_INFO_NULL, port_name, ierror) ! Open port
+        if(ierror/=0) then
+            write(output_unit_eff,*) 'Server init (dll): MPI error opening port, code=',ierror
+            goto 10
+        endif
         if(verbose) write(output_unit_eff,*) 'Server init (dll): port name =', port_name
         if(textout) call flush(output_unit_eff)
         
@@ -90,7 +99,17 @@ module MPIServerSubs
 
         ! Establish connection with first turbine and update MPI_shared.dat
         call MPI_COMM_ACCEPT(port_name, MPI_INFO_NULL, 0, MPI_COMM_WORLD, client_comm, ierror)  
-        if(verbose) write(output_unit_eff,*) "Server init (dll): Connection established with communicators: ", client_comm, " (client/server)",  MPI_COMM_WORLD,"(global); error:", ierror
+        if(ierror/=0) then
+            write(output_unit_eff,*) 'Server init (dll): MPI error establishing connection, code=',ierror
+            goto 10
+        endif
+        if(verbose) write(output_unit_eff,*) "Server init (dll): Connection established with communicators: ", client_comm, " (client/server)",  MPI_COMM_WORLD,"(global)"
+        if(textout) call flush(output_unit_eff)
+        call MPI_COMM_SET_ERRHANDLER(client_comm,MPI_ERRORS_RETURN,ierror)
+        if(ierror/=0) then
+            write(output_unit_eff,*) 'Server init (dll): MPI error setting error handler for server/client comm, code=',ierror
+            goto 10
+        endif
 
         ! Read in number of turbines and message dimension
         open( 11, file=trim(adjustl(filename)), status='old')
@@ -106,6 +125,7 @@ module MPIServerSubs
         nTout=nT
         ncout=nc
         if(verbose) write(output_unit_eff,*) 'Server init (dll):nTout:',nTout,'ncout:',ncout
+        if(textout) call flush(output_unit_eff)
         
         ! Allocate and initialize
         allocate( msg_temp(nc), stat=ierror)
@@ -114,6 +134,8 @@ module MPIServerSubs
         globcount=0
         firstcall=.true.
 
+        10 continue
+        if (textout) call flush(output_unit_eff)
         if (ierror/=0) call cleanup()
     endsubroutine MPIServer_Init
 
@@ -130,6 +152,10 @@ module MPIServerSubs
         integer                             :: count_loc
         
         call MPI_RECV(msg_temp, nc, MPI_FLOAT, MPI_ANY_SOURCE, MPI_ANY_TAG, client_comm, msg_status, ierror) !Receive from any turbine controller instance
+        if (ierror/=0) then
+            write(output_unit_eff,*) 'Server receive (dll): MPI error with code:',ierror,' for turbine nr:', iT, 'turb timestep nr :', count(iT), 'farm timestep nr :', globcount
+            goto 10
+        endif
         iT=msg_status(4) !Extract turbine ID
         source=msg_status(3)
         if  (firstcall) then
@@ -154,7 +180,8 @@ module MPIServerSubs
         flag=any(count/=globcount*nF_T) .and. .not. all(msg(:,1)<0) ! stops at one turbine-level timestep before farm-level update, or at termination
 
         !print*, ierror, msg, count, globcount, flag           
-
+        10 continue
+        if (textout) call flush(output_unit_eff)
         if (ierror/=0) call cleanup()        
     endsubroutine MPIServer_AnyReceive
 
@@ -171,6 +198,10 @@ module MPIServerSubs
         if(verbose) write(output_unit_eff,*) 'Server receive (dll): waiting for turbine nr:', iT, 'timestep nr :', count(iT)
 
         call MPI_RECV(msg_temp, nc, MPI_FLOAT, MPI_ANY_SOURCE, iT, client_comm, msg_status, ierror) !Receive from turbine controller instance number iT
+        if (ierror/=0) then
+            write(output_unit_eff,*) 'Server receive (dll): MPI error with code:',ierror,' for turbine nr:', iT, 'turb timestep nr :', count(iT), 'farm timestep nr :', globcount
+            goto 10
+        endif
         msg(iT,1:nc)=msg_temp
 
         if  (firstcall) then
@@ -191,8 +222,9 @@ module MPIServerSubs
         flag=any(count/=globcount*nF_T) .and. .not. all(msg(:,1)<0) ! Stops at one turbine-level timestep before farm-level update, or at termination
 
         if(verbose) write(output_unit_eff,*) 'Server receive (dll): turbine nr:', iT, 'msg :', msg(iT,:)
-        if(textout) call flush(output_unit_eff)
 
+        10 continue
+        if (textout) call flush(output_unit_eff)
         if (ierror/=0) call cleanup()
     endsubroutine MPIServer_OneReceive   
 
@@ -216,9 +248,14 @@ module MPIServerSubs
             call MPI_ISEND(msg(iT,1:nc), nc, MPI_FLOAT, 0, iT, client_comm, request, ierror) 
             call MPI_WAIT(request, send_status, ierror) 
         endif
+        if (ierror/=0) then
+            write(output_unit_eff,*) 'Server send (dll): MPI error with code:',ierror,' for turbine nr:', iT, 'turb timestep nr :', count(iT), 'farm timestep nr :', globcount
+            goto 10
+        endif
         if(verbose) write(output_unit_eff,*) 'Server send (dll): turbine nr:', iT, 'sending complete' ! Warning: completed MPI_SEND does not mean the message is received on the other side, it may just have been buffered https://docs.microsoft.com/en-us/message-passing-interface/mpi-send-function 
-        if(textout) call flush(output_unit_eff)
 
+        10 continue
+        if (textout) call flush(output_unit_eff)
         if (ierror/=0) call cleanup()
     endsubroutine MPIServer_OneSend    
 
@@ -283,6 +320,10 @@ module MPIServerSubs
         globcount=globcount+1
         do while(flag) !Wait for all instances to update
             call MPI_RECV(msg_temp, nc, MPI_FLOAT, MPI_ANY_SOURCE, MPI_ANY_TAG, client_comm, msg_status, ierror) !Receive from any turbine controller instance
+            if (ierror/=0) then
+                write(output_unit_eff,*) 'Server receive (dll): MPI error with code:',ierror,'farm timestep nr :', globcount
+                goto 10
+            endif
             iT=msg_status(4) !Extract turbine ID
             msg(iT,1:nc)=msg_temp
             !print*, iT, LBOUND(msg_temp), LBOUND(msg,2)
@@ -304,6 +345,8 @@ module MPIServerSubs
 
         enddo
 
+        10 continue
+        if (textout) call flush(output_unit_eff)
         if (ierror/=0) call cleanup()        
     endsubroutine MPIServer_AllReceive
 
@@ -320,7 +363,14 @@ module MPIServerSubs
             if(verbose) write(output_unit_eff,*) 'Server send (dll): turbine nr:', IT, 'timestep nr :', count(iT), 'status :', nint(msg(iT,1))
             if(textout) call flush(output_unit_eff)
             call MPI_SEND(msg(iT,1:nc), nc, MPI_FLOAT, 0, iT, client_comm, ierror) 
+            if (ierror/=0) then
+                write(output_unit_eff,*) 'Server send (dll): MPI error with code:',ierror,' for turbine nr:', iT, 'turb timestep nr :', count(iT), 'farm timestep nr :', globcount
+                goto 10
+            endif
         enddo
+
+        10 continue
+        if (textout) call flush(output_unit_eff)
         if (ierror/=0) call cleanup()
     endsubroutine MPIServer_AllSend
 
@@ -332,10 +382,24 @@ module MPIServerSubs
         if(verbose) write(output_unit_eff,*) 'Server stop (dll): terminating' 
         if(textout) call flush(output_unit_eff)
         call MPI_CLOSE_PORT(port_name, ierror)
+        if (ierror/=0) then
+            write(output_unit_eff,*) 'Server stop (dll): MPI error while closing port, code:',ierror
+            goto 10
+        endif
         call MPI_COMM_DISCONNECT(client_comm, ierror) 
+        if (ierror/=0) then
+            write(output_unit_eff,*) 'Server stop (dll): MPI error while disconnecting, code:',ierror
+            goto 10
+        endif
         call MPI_FINALIZE(ierror)
+        if (ierror/=0) then
+            write(output_unit_eff,*) 'Server stop (dll): MPI error while finalizing, code:',ierror
+            goto 10
+        endif
         if(verbose) write(output_unit_eff,*) 'Server stop (dll): disconnected'   
-        if(textout) close(output_unit_eff)    
+
+        10 continue
+        if(textout) call flush(output_unit_eff)  
         call cleanup()
     endsubroutine MPIServer_Stop
 

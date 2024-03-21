@@ -32,7 +32,7 @@ Matlab/Simulink acts as an MPI server communicating with MPI client dlls for eac
 - SCClient_DTUWEC_64.dll: Uses the DTUWEC controller for turbine-level control. Uses MPI communication to connect to farm-level controller on the server side, and optionally to override turbine-level controls. A similar link may be made to ROSCO. 
 - SCClient_Standalone_64.dll: Does not use MPI communication, for debug only. Standalone versions may also be linked to DTUWEC or ROSCO for debug, which should be identical to using the DTUWEC or ROSCO dll directly.
 
-Skelettons of turbine-level and farm-level controllers are provided in the files 'SC_MATLAB.m' or 'SC_Simulink.m' in the 'SC_MPIServer' folder. NOTE: This repository only provides a skeletton of turbine-level controller. Using SCClient_64.dll (without linking to DTUWEC or ROSCO) and 'SC_MATLAB.m' or 'SC_Simulink.m' as is  will lead to unstable behaviour, unless the effect of controls has been switched off in ElastoDyn through the generator DOF (i.e. using fixed rotor speed).
+Templates of turbine-level and farm-level controllers are provided in the files 'SC_MATLAB.m' or 'SC_Simulink.m' in the 'SC_MPIServer' folder. NOTE: This repository only provides a template skeletton of turbine-level controller. Using SCClient_64.dll (without linking to DTUWEC or ROSCO) and 'SC_MATLAB.m' or 'SC_Simulink.m' as is will lead to unstable behaviour, unless the effect of controls has been switched off in ElastoDyn through the generator DOF (i.e. using fixed rotor speed).
 
 Running a simulation: 
 - In the command prompt, navigate to the folder containing the test file, Call the OpenFAST.exe file (or FAST.Farm.exe file) and then call the file you want to run, example: 
