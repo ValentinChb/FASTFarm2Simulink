@@ -18,18 +18,18 @@ class MexFunction : public matlab::mex::Function
 public:
     void operator()(ArgumentList outputs, ArgumentList inputs)
     {
-        int ierror;
+        int ierror = 0;
         int iT = inputs[0][0];
 
         TypedArray<float> inputArr = inputs[1];
         buffer_ptr_t<float> bPtr = inputArr.release();
         float * ptr = bPtr.get();
         
-        //MPIServer_OneSend(&iT, ptr, &ierror);
+        MPIServer_OneSend(&iT, ptr, &ierror);
 
         if (ierror != 0)
         {
-            stream << "An error occured in MPIServer_OneSend\n";
+            stream << "An error occured in MPIServer_OneSend, code: " << ierror  << "\n";
             displayOnMATLAB(stream);
         }
 

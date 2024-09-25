@@ -19,7 +19,7 @@ public:
     void operator()(ArgumentList outputs, ArgumentList inputs)
     {
         // fortran output variables
-        int ierror;
+        int ierror = 0;
         int iT;
         bool flag;
         
@@ -28,11 +28,11 @@ public:
         float * ptr = bPtr.get();
 
         // calling mpiserver AnyReceive from fortran
-        //MPIServer_AnyReceive(&iT, ptr, &flag, &ierror); //&=search in other files, ptr is created in this file
+        MPIServer_AnyReceive(&iT, ptr, &flag, &ierror); //&=search in other files, ptr is created in this file
 
         if (ierror != 0)
         {
-            stream << "An error occured in MPIServer_AnyReceive\n";
+            stream << "An error occured in MPIServer_AnyReceive, code: " << ierror << "\n";
             displayOnMATLAB(stream);
         }
 

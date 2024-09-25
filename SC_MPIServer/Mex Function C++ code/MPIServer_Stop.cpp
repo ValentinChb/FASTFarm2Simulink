@@ -19,7 +19,7 @@ public:
     void operator()(ArgumentList outputs, ArgumentList inputs)
     {
         // fortran output variables
-        int ierror;
+        int ierror = 0;
 
         // formatting matlab input as fortran input
 
@@ -29,7 +29,7 @@ public:
 
         if (ierror != 0)
         {
-            stream << "An error occured in MPIServer_Stop\n";
+            stream << "An error occured in MPIServer_Stop, code: " << ierror << "\n";
             displayOnMATLAB(stream);
         }
 

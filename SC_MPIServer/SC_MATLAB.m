@@ -13,6 +13,8 @@ else
 end
 MPI_sharedfile = convertStringsToChars(MPI_sharedfile);
 
+% MPIServer_Test();
+
 %Initialize
 disp("Ready to connect");
 [nT,nc]=MPIServer_Init(MPI_sharedfile);

@@ -21,7 +21,7 @@ public:
         // fortran output variables
         size_t nT;
         size_t nc;
-        int ierror;
+        int ierror = 0;
 
         // formatting matlab input as fortran input
         const CharArray filename = inputs[0];
@@ -38,7 +38,7 @@ public:
 
         if (ierror != 0)
         {
-            stream << "An error occured in MPIServer_Init\n";
+            stream << "An error occured in MPIServer_Init, code: " << ierror << "\n";
             displayOnMATLAB(stream);
         }
 
