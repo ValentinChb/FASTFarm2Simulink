@@ -35,18 +35,18 @@ Matlab/Simulink acts as an MPI server communicating with MPI client dlls for eac
 Templates of turbine-level and farm-level controllers are provided in the files 'SC_MATLAB.m' or 'SC_Simulink.m' in the 'SC_MPIServer' folder. NOTE: This repository only provides a template skeletton of turbine-level controller. Using SCClient_64.dll (without linking to DTUWEC or ROSCO) and 'SC_MATLAB.m' or 'SC_Simulink.m' as is will lead to unstable behaviour, unless the effect of controls has been switched off in ElastoDyn through the generator DOF (i.e. using fixed rotor speed).
 
 Running a simulation: 
-- In the command prompt, navigate to the folder containing the test file, Call the OpenFAST.exe file (or FAST.Farm.exe file) and then call the file you want to run, example: 
-C:\OpenFAST\reg_tests\r-test\glue-codes\openfast\5MW_OC4Semi_Linear> C:\OpenFAST\executables\openfast_x64.exe 5MW_OC4Semi_Linear.fst
-- Once FAST.Farm is running, run 'RunTest_MATLAB.bat' or 'RunTest_Simulink.bat' in order to run a test with the interface.  MATLAB needs some time to start the simulation, two screens appear once 'RunTest' is executed. Wait for the message 'ready to connect' before clicking continue (this could last 1 minute at most).
-- Once ready, the FAST.Farm simulation starts and connects to MATLAB. A powershell screen should appear showing the progress of the simulation. 
+- Run 'RunTest_MATLAB.bat' or 'RunTest_Simulink.bat' in order to run a test with the interface. A command window running Matlab appears. 
+- Wait for the message 'ready to connect' in the new window -this could last 1 minute at most-
+- Press any key to continue in the original window. A powershell window running FAST.Farm appears.
+- Wait for the simulation to finish, progress is shown in th FAST.Farm window. If the simulation is frozen at first timestep, there is likely a problem with MPI connection. See Debugging section for info.
 
-The 'Test3turbines' folder contains the FAST.Farm input file (.fstf file) and the OpenFAST input files (.fst file and servodyn, elastodyn etc). These files can be modified accordingly, but the path tree architecture must be kept. 
+The 'Test3turbines' folder contains the FAST.Farm input file (.fstf file) and the OpenFAST input files (.fst file and servodyn, elastodyn etc). These files can be modified accordingly, but the path tree architecture must be kept. Note that the connection to Matlab/Simulink occurs through the wind turbine controller dll and is therefore independent on the version of OpenFAST, which may be updated at wish.
 
 # Debugging
 
-FAST.Farm and linking to DTUWEC or ROSCO may be checked separately by using Standalone versions of the client dll.
+Check first if the OpenFAST and FAST.Farm executables run correctly by using no turbine controller in ServoDyn and a constant rotor speed. Then check linking to DTUWEC or ROSCO turbine controllers using the above-introduced standalone versions of the client dll in ServoDyn.
 
-Information about the MPI connection may be found in stdout_MPIServerSubs.txt for the server (Matlab) side in the SC_MPIServer folder, and in stdout_SCClientSubs.txt for the client (Wind turbine controller dlls) side in the OpenFAST/T\<Turbine Number\>/ControlData folder. Compare with the files provided in this repository to identify where the communication fails/halts. When the communication is deemed robust, outputting these files may be deactivated to save computational time. This is done by switching the verbose flag to false in source code and recompiling (see below).
+Information about the MPI connection may be found in stdout_MPIServerSubs.txt for the server (Matlab) side in the SC_MPIServer folder, and in stdout_SCClientSubs.txt for the client (Wind turbine controller dlls) side in the OpenFAST/T\<Turbine Number\>/ControlData folder. Compare with the files provided in this repository to identify where the communication fails/halts. When the communication is deemed robust, outputting these files may be deactivated to save computational resources. This is done by switching the verbose flag to false in source code and recompiling (see below).
 
 This is not an official NREL product and thorough testing has not been conducted. It is expected that users have some knowledge about coding and willingness to look into the various source codes and be able to recompile to find solutions themselves.
 

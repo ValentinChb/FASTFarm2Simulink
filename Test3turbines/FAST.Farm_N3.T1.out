@@ -1,5 +1,5 @@
 
-Predictions were generated on 14-Mar-2023 at 14:32:42 using OpenFAST, compiled as a 64-bit application using single precision at commit v3.0.0
+Predictions were generated on 25-Sep-2024 at 13:44:56 using OpenFAST, compiled as a 64-bit application using single precision at commit v3.0.0
  linked with  NWTC Subroutine Library; ElastoDyn; InflowWind; AeroDyn; ServoDyn
 
 Description from the FAST input file: FAST model of the DTU 10MW Reference Wind Turbine on monopile
